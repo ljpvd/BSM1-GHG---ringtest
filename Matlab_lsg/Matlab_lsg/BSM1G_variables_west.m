@@ -1,0 +1,89 @@
+% variable vectors for BSM2 output files
+
+basename = inputdlg('Model name: e.g. BSM2_open_loop, BSM2_basic_DO_control', 'Model name',1,{''});
+
+ASU1_Kla = data(:,strmatch(strcat(basename,'.ASU_1.Kla_Actual_Temp'),var_names));
+ASU1_TSS = data(:,strmatch(strcat(basename,'.ASU_1.X_TSS'),var_names));
+VOL1 = mean (data(:,strmatch(strcat(basename,'.ASU_1.V_ASU'),var_names)));
+O2sat1 = data(:,strmatch(strcat(basename,'.ASU_1.S_O_Saturation'),var_names));
+ASU2_Kla = data(:,strmatch(strcat(basename,'.ASU_2.Kla_Actual_Temp'),var_names));
+ASU2_TSS = data(:,strmatch(strcat(basename,'.ASU_2.X_TSS'),var_names));
+VOL2 = mean (data(:,strmatch(strcat(basename,'.ASU_2.V_ASU'),var_names)));
+O2sat2 = data(:,strmatch(strcat(basename,'.ASU_2.S_O_Saturation'),var_names));
+ASU3_Kla = data(:,strmatch(strcat(basename,'.ASU_3.Kla_Actual_Temp'),var_names));
+ASU3_TSS = data(:,strmatch(strcat(basename,'.ASU_3.X_TSS'),var_names));
+VOL3 = mean (data(:,strmatch(strcat(basename,'.ASU_3.V_ASU'),var_names)));
+O2sat3 = data(:,strmatch(strcat(basename,'.ASU_3.S_O_Saturation'),var_names));
+ASU4_Kla = data(:,strmatch(strcat(basename,'.ASU_4.Kla_Actual_Temp'),var_names));
+ASU4_TSS = data(:,strmatch(strcat(basename,'.ASU_4.X_TSS'),var_names));
+VOL4 = mean (data(:,strmatch(strcat(basename,'.ASU_4.V_ASU'),var_names)));
+O2sat4 = data(:,strmatch(strcat(basename,'.ASU_4.S_O_Saturation'),var_names));
+ASU5_Kla = data(:,strmatch(strcat(basename,'.ASU_5.Kla_Actual_Temp'),var_names));
+ASU5_TSS = data(:,strmatch(strcat(basename,'.ASU_5.X_TSS'),var_names));
+VOL5 = mean (data(:,strmatch(strcat(basename,'.ASU_5.V_ASU'),var_names)));
+O2sat5 = data(:,strmatch(strcat(basename,'.ASU_5.S_O_Saturation'),var_names));
+N2Oemission_ASU1=data(:,strmatch(strcat(basename,'.ASU_1.FluxN2O_gas'),var_names));
+N2Oemission_ASU2=data(:,strmatch(strcat(basename,'.ASU_2.FluxN2O_gas'),var_names));
+N2Oemission_ASU3=data(:,strmatch(strcat(basename,'.ASU_3.FluxN2O_gas'),var_names));
+N2Oemission_ASU4=data(:,strmatch(strcat(basename,'.ASU_4.FluxN2O_gas'),var_names));
+N2Oemission_ASU5=data(:,strmatch(strcat(basename,'.ASU_5.FluxN2O_gas'),var_names));
+
+inf_Q = data(:,strmatch(strcat(basename,'.Municipality_1.H2O'),var_names));
+inf_S_I = data(:,strmatch(strcat(basename,'.Municipality_1.S_I'),var_names));  
+inf_S_ALK = data(:,strmatch(strcat(basename,'.Municipality_1.S_ALK'),var_names));
+inf_S_ND = data(:,strmatch(strcat(basename,'.Municipality_1.S_ND'),var_names));
+inf_S_NH = data(:,strmatch(strcat(basename,'.Municipality_1.S_NH'),var_names));
+inf_S_NO3 = data(:,strmatch(strcat(basename,'.Municipality_1.S_NO3'),var_names));
+inf_S_NO2 = data(:,strmatch(strcat(basename,'.Municipality_1.S_NO2'),var_names));
+inf_S_N2O = data(:,strmatch(strcat(basename,'.Municipality_1.S_N2O'),var_names));
+inf_S_NO = data(:,strmatch(strcat(basename,'.Municipality_1.S_NO'),var_names,'exact'));
+inf_S_N2 = data(:,strmatch(strcat(basename,'.Municipality_1.S_N2'),var_names,'exact'));
+inf_S_O = data(:,strmatch(strcat(basename,'.Municipality_1.S_O'),var_names));
+inf_S_S = data(:,strmatch(strcat(basename,'.Municipality_1.S_S'),var_names));
+inf_X_BA1 = data(:,strmatch(strcat(basename,'.Municipality_1.X_BA1'),var_names));
+inf_X_BA2 = data(:,strmatch(strcat(basename,'.Municipality_1.X_BA2'),var_names));
+inf_X_BH = data(:,strmatch(strcat(basename,'.Municipality_1.X_BH'),var_names));
+inf_X_I = data(:,strmatch(strcat(basename,'.Municipality_1.X_I'),var_names));
+inf_X_ND = data(:,strmatch(strcat(basename,'.Municipality_1.X_ND'),var_names));
+inf_X_P = data(:,strmatch(strcat(basename,'.Municipality_1.X_P'),var_names));
+inf_X_S = data(:,strmatch(strcat(basename,'.Municipality_1.X_S'),var_names));
+
+eff_Q = data(:,strmatch(strcat(basename,'.out_1.H2O'),var_names));
+eff_S_I = data(:,strmatch(strcat(basename,'.out_1.S_I'),var_names));
+eff_S_ALK = data(:,strmatch(strcat(basename,'.out_1.S_ALK'),var_names));
+eff_S_ND = data(:,strmatch(strcat(basename,'.out_1.S_ND'),var_names));
+eff_S_NH = data(:,strmatch(strcat(basename,'.out_1.S_NH'),var_names));
+eff_S_NO3 = data(:,strmatch(strcat(basename,'.out_1.S_NO3'),var_names));
+eff_S_NO2 = data(:,strmatch(strcat(basename,'.out_1.S_NO2'),var_names));
+eff_S_N2O = data(:,strmatch(strcat(basename,'.out_1.S_N2O'),var_names));
+eff_S_NO = data(:,strmatch(strcat(basename,'.out_1.S_NO'),var_names,'exact'));
+eff_S_N2 = data(:,strmatch(strcat(basename,'.out_1.S_N2'),var_names,'exact'));
+eff_S_O = data(:,strmatch(strcat(basename,'.out_1.S_O'),var_names));
+eff_S_S = data(:,strmatch(strcat(basename,'.out_1.S_S'),var_names));
+eff_X_BA1 = data(:,strmatch(strcat(basename,'.out_1.X_BA1'),var_names));
+eff_X_BA2 = data(:,strmatch(strcat(basename,'.out_1.X_BA2'),var_names));
+eff_X_BH = data(:,strmatch(strcat(basename,'.out_1.X_BH'),var_names));
+eff_X_I = data(:,strmatch(strcat(basename,'.out_1.X_I'),var_names));
+eff_X_ND = data(:,strmatch(strcat(basename,'.out_1.X_ND'),var_names));
+eff_X_P = data(:,strmatch(strcat(basename,'.out_1.X_P'),var_names));
+eff_X_S = data(:,strmatch(strcat(basename,'.out_1.X_S'),var_names));
+eff_TSS = data(:,strmatch(strcat(basename,'.SST_1.X_Out'),var_names));
+
+waste_Q = data(:,strmatch(strcat(basename,'.FS_2.Q_Out2_Actual'),var_names));
+waste_TSS = data(:,strmatch(strcat(basename,'.SST_1.X_Under'),var_names));
+
+sludge_rec_Q = data(:,strmatch(strcat(basename,'.FS_2.Q_Out1'),var_names));
+MLSS_rec_Q = data(:,strmatch(strcat(basename,'.FS_1.Q_Out2_Actual'),var_names));
+
+sst_X1 = data(:,strmatch(strcat(basename,'.SST_1.X_Layer(1)'),var_names));
+sst_X2 = data(:,strmatch(strcat(basename,'.SST_1.X_Layer(2)'),var_names));
+sst_X3 = data(:,strmatch(strcat(basename,'.SST_1.X_Layer(3)'),var_names));
+sst_X4 = data(:,strmatch(strcat(basename,'.SST_1.X_Layer(4)'),var_names));
+sst_X5 = data(:,strmatch(strcat(basename,'.SST_1.X_Layer(5)'),var_names));
+sst_X6 = data(:,strmatch(strcat(basename,'.SST_1.X_Layer(6)'),var_names));
+sst_X7 = data(:,strmatch(strcat(basename,'.SST_1.X_Layer(7)'),var_names));
+sst_X8 = data(:,strmatch(strcat(basename,'.SST_1.X_Layer(8)'),var_names));
+sst_X9 = data(:,strmatch(strcat(basename,'.SST_1.X_Layer(9)'),var_names));
+sst_X10 = data(:,strmatch(strcat(basename,'.SST_1.X_Layer(10)'),var_names));
+sst_Area = data(:,strmatch(strcat(basename,'.SST_1.A'),var_names));
+sst_Hight = data(:,strmatch(strcat(basename,'.SST_1.H'),var_names));
