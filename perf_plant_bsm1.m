@@ -258,7 +258,7 @@ BOD5_XPload = 0.25*(1-f_P)*(XPeload);
 BOD5eav = (BOD5_SSload + BOD5_XSload + BOD5_XBHload + BOD5_XBA1load + BOD5_XBA2load)/Qetot;%%%% XBA2 is included in the whole BOD5 balance
 
 totalNKjevec2=(SNHevec+SNDevec+XNDevec+i_X_B*(XBHevec+ XBA1evec + XBA2evec )+i_X_P*(XPevec+XIevec))./Qevec;%%XBA2 as dummy state 5 is inclued in TKN
-totalNevec2=((SNO3evec + SNO2evec + SNOevec + SN2Oevec)+ totalNKjevec2 )./Qevec;%%%%%%% the dissolved forms of N are included in NOx
+totalNevec2=(SNO3evec + SNO2evec + SNOevec + SN2Oevec)./Qevec + totalNKjevec2 ;%%%%%%% the dissolved forms of N are included in NOx
 totalCODevec2=(SIevec+SSevec+XIevec+XSevec+XBHevec+XBA1evec + XPevec + XBA2evec)./Qevec;%%% XBA2 as dummy state 5 is inclued in TCOD
 SNHevec2=SNHevec./Qevec;
 TSSevec2=TSSevec./Qevec;
@@ -720,9 +720,17 @@ N2Oemissionvec3_perd = N2Oemissionvec3_t/totalt;
 N2Oemissionvec4_perd = N2Oemissionvec4_t/totalt;
 N2Oemissionvec5_perd = N2Oemissionvec5_t/totalt;
 
+N2Oemissionvec1_perdperN = (sum(44/28*N2Oemissionvec1.*timevector))/totalt;
+N2Oemissionvec2_perdperN = (sum(44/28*N2Oemissionvec2.*timevector))/totalt;
+N2Oemissionvec3_perdperN = (sum(44/28*N2Oemissionvec3.*timevector))/totalt;
+N2Oemissionvec4_perdperN = (sum(44/28*N2Oemissionvec4.*timevector))/totalt;
+N2Oemissionvec5_perdperN = (sum(44/28*N2Oemissionvec5.*timevector))/totalt;
+
+
 N2Oemissionvec = (GHG_reac1part(:,2)+ GHG_reac2part(:,2)+ GHG_reac3part(:,2) + GHG_reac4part(:,2)+ GHG_reac5part(:,2))./1000;
 N2Oemitted = sum(N2Oemissionvec.*timevector);
 N2Oemittedperd = N2Oemitted/totalt;
+N2OemittedperdperN = (sum(44/28*N2Oemissionvec.*timevector))/totalt;
 
 disp(['N2O emission during nitrification/denitrification (ANOX1) = ',num2str(N2Oemissionvec1_perd),' kg N2O/d'])
 disp(['N2O emission during nitrification/denitrification (ANOX2) = ',num2str(N2Oemissionvec2_perd),' kg N2O/d'])
@@ -731,6 +739,14 @@ disp(['N2O emission during nitrification/denitrification (AER2) = ',num2str(N2Oe
 disp(['N2O emission during nitrification/denitrification (AER3) = ',num2str(N2Oemissionvec5_perd),' kg N2O/d'])
 disp(['N2O emission during nitrification/denitrification (total) = ',num2str(N2Oemittedperd),' kg N2O/d'])
 disp(' ')
+disp(['N2O emission during nitrification/denitrification (ANOX1) = ',num2str(N2Oemissionvec1_perdperN),' kg N-N2O/d'])
+disp(['N2O emission during nitrification/denitrification (ANOX2) = ',num2str(N2Oemissionvec2_perdperN),' kg N-N2O/d'])
+disp(['N2O emission during nitrification/denitrification (AER1) = ',num2str(N2Oemissionvec3_perdperN),' kg N-N2O/d'])
+disp(['N2O emission during nitrification/denitrification (AER2) = ',num2str(N2Oemissionvec4_perdperN),' kg N-N2O/d'])
+disp(['N2O emission during nitrification/denitrification (AER3) = ',num2str(N2Oemissionvec5_perdperN),' kg N-N2O/d'])
+disp(['N2O emission during nitrification/denitrification (total) = ',num2str(N2OemittedperdperN),' kg N-N2O/d'])
+disp(' ')
+
 disp('Effluent violations')
 disp('-------------------')
 disp(['95% percentile for effluent SNH (Ammonia95) = ',num2str(SNHeffprctile),' g N/m3'])
@@ -756,10 +772,8 @@ noofTSSviolation = 1;
 noofBOD5violation = 1;
 
 if not(isempty(Nviolation))
-  disp('The maximum effluent total nitrogen level (18 g N/m3) was violated')
+  disp('The maximum effluent total nitrogen level (18 mg N/l) was violated')
   disp(['during ',num2str(min(totalt,length(Nviolation)*sampletime)),' days, i.e. ',num2str(min(100,length(Nviolation)*sampletime/totalt*100)),'% of the operating time.'])
-  Nviolationtime=min(totalt,length(Nviolation)*sampletime);
-  Nviolationtimepercent=min(100,length(Nviolation)*sampletime/totalt*100);
   for i=2:length(Nviolation)
     if Nviolation(i-1)~=(Nviolation(i)-1)
       noofNviolation = noofNviolation+1;
@@ -767,7 +781,6 @@ if not(isempty(Nviolation))
   end
   disp(['The limit was violated at ',num2str(noofNviolation),' different occasions.'])
   disp(' ')
-  %output=[output; Nviolationtime; Nviolationtimepercent; noofNviolation];
 end
 
 if not(isempty(CODviolation))
@@ -841,20 +854,17 @@ end
 %     timeshift = movingaveragewindow/2;
 %     b = ones(1,movingaveragewindow)./movingaveragewindow;
 %     
-%     figure(1)
-%     plot(time_eval(1:(end-1)),totalNevec2,'b','LineWidth',1)
-%     hold on
-%     filteredout=filter(b,1,totalNevec2);
-%     filteredout=filteredout(movingaveragewindow:end);
-%     plot(time_eval(timeshift:(end-timeshift-1)),filteredout,'g','LineWidth',1.5)
-%     plot([time_eval(1) time_eval(end-1)],[totalNemax totalNemax],'r','LineWidth',1.5)
-%     xlabel('time (days)','FontSize',10,'FontWeight','bold')
-%     ylabel('TN in effluent (g N/m^3)','FontSize',10,'FontWeight','bold')
-%     title('Effluent total nitrogen (raw and filtered) and limit value','FontSize',10,'FontWeight','bold')
-%     hold off
-%     xlim([starttime stoptime])
-%     set(gca,'LineWidth',1.5,'FontSize',10,'FontWeight','bold')
-% 
+    figure(1)
+    plot(time(1:(end-1)),totalNevec2,'b','LineWidth',1)
+    hold on
+    plot([time(1) time(end-1)],[totalNemax totalNemax],'r','LineWidth',1.5)
+    xlabel('time (days)','FontSize',10,'FontWeight','bold')
+    ylabel('TN in effluent (g N/m^3)','FontSize',10,'FontWeight','bold')
+    title('Effluent total nitrogen (raw and filtered) and limit value','FontSize',10,'FontWeight','bold')
+    hold off
+    xlim([starttime stoptime])
+    set(gca,'LineWidth',1.5,'FontSize',10,'FontWeight','bold')
+
 %     figure(2)
 %     plot(time_eval(1:(end-1)),totalCODevec2,'b','LineWidth',1)
 %     hold on
