@@ -19,7 +19,7 @@ sim('bsm1_ss_settler2',[0 200],options); %Simulate the BSM2 under constant influ
 
 disp('Steady state achieved. Initializing all state variables to steady state values.')
 disp(' ')
-stateset_bsm1; %Initialize the states 
+stateset_bsm1_UJ; %Initialize the states 
 % save workspace_steady
 
 
