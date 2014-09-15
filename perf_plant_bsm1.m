@@ -20,7 +20,7 @@ disp(' ')
 
 plotflag = 1;
 
-starttime = 7;
+starttime = 7.0104;
 stoptime = 14;
 startindex=max(find(t <= starttime));
 stopindex=min(find(t >= stoptime));
