@@ -158,7 +158,7 @@ vol =               mxGetPr(V)[0];
   
   }
   
-  KLa_temp = u[26]*pow(theta_kla, (u[15]-Temp_Ref)); // not x[15]?
+  KLa_temp = u[26]*pow(theta_kla, (x[15]-Temp_Ref)); // not x[15]?
   
   Kla_N2O = pow(D_N2O,0.5) / pow(D_O2,0.5) * KLa_temp;
   Kla_NO =  pow(D_NO,0.5) / pow(D_N2O,0.5) * Kla_N2O;
@@ -169,12 +169,12 @@ vol =               mxGetPr(V)[0];
   Flux_N2 =  - Kla_N2 *  ((P_N2_air * 28 /  H_N2) -  x[19]) * vol;
   
 // calculation of free ammonia   
-KB_2_KW = exp(6344.0/(273.15 + u[15]));
+KB_2_KW = exp(6344.0/(273.15 + x[15]));
 S_FA = (x[9]*pow(10,pH))/(KB_2_KW + pow(10,pH));
 
    
 // calculation of free nitrous acid //
-K_A = exp(-2300.0/(273.15+ u[15]));
+K_A = exp(-2300.0/(273.15+ x[15]));
 S_FNA = (x[16] * 1.0 / (1.0 + K_A * pow(10,pH)));
 
   y[26] =Flux_NO; //KB_2_KW; 
@@ -335,26 +335,26 @@ tempmodel =         mxGetPr(TEMPMODEL)[0];
 
 /* temperature compensation */
 
-mu_H_Temp  =    pow((b_Ratkowsky_mu_H *  (u[15]- Tmin_Ratkowsky_mu_H) *  (1.0 - exp(c_Ratkowsky_mu_H *  (u[15]- Tmax_Ratkowsky_mu_H)))),2);
-mu_A1_Temp =    pow((b_Ratkowsky_mu_A1 * (u[15]- Tmin_Ratkowsky_mu_A1) * (1.0 - exp(c_Ratkowsky_mu_A1 * (u[15]- Tmax_Ratkowsky_mu_A1)))),2);
-mu_A2_Temp =    pow((b_Ratkowsky_mu_A2 * (u[15]- Tmin_Ratkowsky_mu_A2) * (1.0 - exp(c_Ratkowsky_mu_A2 * (u[15]- Tmax_Ratkowsky_mu_A2)))),2);
-b_H_Temp =      b_H  * pow(theta_b_H,u[15]- Temp_Ref);
-b_A1_Temp =     b_A1 * pow(theta_b_A1,u[15]- Temp_Ref);
-b_A2_Temp =     b_A2 * pow(theta_b_A2,u[15]- Temp_Ref);
-k_h_Temp =      k_h * pow(theta_k_h,u[15]- Temp_Ref);
-k_a_Temp =      k_a * pow(theta_k_a,u[15]- Temp_Ref);
+mu_H_Temp  =    pow((b_Ratkowsky_mu_H *  (x[15]- Tmin_Ratkowsky_mu_H) *  (1.0 - exp(c_Ratkowsky_mu_H *  (x[15]- Tmax_Ratkowsky_mu_H)))),2);
+mu_A1_Temp =    pow((b_Ratkowsky_mu_A1 * (x[15]- Tmin_Ratkowsky_mu_A1) * (1.0 - exp(c_Ratkowsky_mu_A1 * (x[15]- Tmax_Ratkowsky_mu_A1)))),2);
+mu_A2_Temp =    pow((b_Ratkowsky_mu_A2 * (x[15]- Tmin_Ratkowsky_mu_A2) * (1.0 - exp(c_Ratkowsky_mu_A2 * (x[15]- Tmax_Ratkowsky_mu_A2)))),2);
+b_H_Temp =      b_H  * pow(theta_b_H,x[15]- Temp_Ref);
+b_A1_Temp =     b_A1 * pow(theta_b_A1,x[15]- Temp_Ref);
+b_A2_Temp =     b_A2 * pow(theta_b_A2,x[15]- Temp_Ref);
+k_h_Temp =      k_h * pow(theta_k_h,x[15]- Temp_Ref);
+k_a_Temp =      k_a * pow(theta_k_a,x[15]- Temp_Ref);
 
-SO_sat_temp =   0.9997743214*   (8.0/  10.5*(  56.12*  6791.5*  exp(-  66.7354 + 87.4755/((  u[15]+ 273.15)/  100.0) + 24.4526*  log((u[15]+273.15)/   100.0)))); /* van't Hoff equation */
-KLa_temp =      u[26]*pow(theta_kla, (u[15]-Temp_Ref));
+SO_sat_temp =   0.9997743214*   (8.0/  10.5*(  56.12*  6791.5*  exp(-  66.7354 + 87.4755/((  x[15]+ 273.15)/  100.0) + 24.4526*  log((x[15]+273.15)/   100.0)))); /* van't Hoff equation */
+KLa_temp =      u[26]*pow(theta_kla, (x[15]-Temp_Ref));
 
 
 // calculation of free ammonia   
-KB_2_KW = exp(6344.0/(273.15 + u[15]));
+KB_2_KW = exp(6344.0/(273.15 + x[15]));
 S_FA = (x[9]*pow(10,pH))/(KB_2_KW + pow(10,pH));
 
    
 // calculation of free nitrous acid //
-K_A = exp(-2300.0/(273.15+ u[15]));
+K_A = exp(-2300.0/(273.15+ x[15]));
 S_FNA = (x[16] * 1.0 / (1.0 + K_A * pow(10,pH)));
 
 
