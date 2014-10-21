@@ -399,22 +399,22 @@ proc10 =    n_AOB * (mu_A1_Temp * xtemp[5] * (xtemp[17] / (K_SNO_aob +  xtemp[17
 // reactions //
 
 /* SI */    reac1 = 0.0;
-/* SS */    reac2 = (- 1 / Y_H)*proc1 + ( - 1 / (Y_H *n_Y))*proc2x1 + (- 1 / (Y_H * n_Y))*proc2x2 + (- 1 / (Y_H * n_Y))*proc2x3 + (- 1 / (Y_H * n_Y))*proc2x4 + proc7;;
+/* SS */    reac2 = (- 1 / Y_H)*proc1 + ( - 1 / (Y_H *n_Y))*proc2x1 + (- 1 / (Y_H * n_Y))*proc2x2 + (- 1 / (Y_H * n_Y))*proc2x3 + (- 1 / (Y_H * n_Y))*proc2x4 + proc7;
 /* XI */    reac3 = 0.0;
-/* XS */    reac4 = (1 - f_P)*proc4 + (1 - f_P)*proc5x1 + (1 - f_P)*proc5x2 + (-1)*proc7;;
-/* XBH */   reac5 = (1)*proc1 + (1)*proc2x1 + (1)*proc2x2 + (1)*proc2x3 + (1)*proc2x4 + (-1)*proc4;;
+/* XS */    reac4 = (1 - f_P)*proc4 + (1 - f_P)*proc5x1 + (1 - f_P)*proc5x2 + (-1)*proc7;
+/* XBH */   reac5 = (1)*proc1 + (1)*proc2x1 + (1)*proc2x2 + (1)*proc2x3 + (1)*proc2x4 + (-1)*proc4;
 /* XBA1 */  reac6 =  proc3x1 - proc5x1 + proc9 + proc10  ;
 /* XU */    reac7 = (f_P)*proc4 + (f_P)*proc5x1 + (f_P)*proc5x2;
-/* SO2 */   reac8 =  - (1 - Y_H) / Y_H*proc1  - (3.4285714 - Y_A1) /Y_A1 *proc3x1  - (1.1428571 - Y_A2) / Y_A2*proc3x2 +(- ((2.2857143 / (Y_A1*n_Y_AOB)) - 1.0))*proc9 + (- ((2.2857143 / (Y_A1*n_Y_AOB)) - 1.0))*proc10;
+/* SO2 */   reac8 =  - (1 - Y_H) / Y_H*proc1  - (3.4285714 - Y_A1) /Y_A1 *proc3x1  - (1.1428571 - Y_A2) / Y_A2*proc3x2 +(- ((2.2857143 / (Y_A1*n_Y_AOB)) - 1.0))*proc9 + (-(2.2857143 / (Y_A1*n_Y_AOB)) - 1.0)*proc10;
 /* SNO3 */  reac9 = ( - (1 -Y_H * n_Y) / (1.14385714 * Y_H * n_Y))*proc2x1 + (1 / Y_A2)*proc3x2;
-/* SNH  */  reac10 = ( - i_X_B)*proc1 + ( - i_X_B)*proc2x1 + ( - i_X_B)*proc2x2 + ( - i_X_B)*proc2x3 + ( - i_X_B)*proc2x4 + ( - i_X_B - (1 / Y_A1))*proc3x1 + ( - i_X_B)*proc3x2 + (1) * proc6 + ( - (1.0 / (Y_A1*n_Y_AOB)) - i_X_B)*proc9 + ( - (1.0 / (Y_A1*n_Y_AOB)) - i_X_B)*proc10 ;
+/* SNH  */  reac10 = ( - i_X_B)*proc1 + ( - i_X_B)*proc2x1 + ( - i_X_B)*proc2x2 + ( - i_X_B)*proc2x3 + ( - i_X_B)*proc2x4 + ( - i_X_B - (1 / Y_A1))*proc3x1 + ( - i_X_B)*proc3x2 + (1) * proc6 + ((-1.0 / (Y_A1*n_Y_AOB)) - i_X_B)*proc9 + ( - (1.0 / (Y_A1*n_Y_AOB)) - i_X_B)*proc10 ;
 /* SND  */  reac11 = -proc6+proc8;
 /* XND */   reac12 = (i_X_B - f_P * i_X_P)*proc4 + (i_X_B - f_P * i_X_P)*proc5x1 + (i_X_B - f_P * i_X_P)*proc5x2 +(-1) *proc8;
-/* SALK */  reac13 = ( - i_X_B / 14)*proc1 + (- i_X_B / 14)*proc2x1 + ( - (i_X_B / 14) + (1 - Y_H * n_Y) / (14 * ((3.428571429 - 2.8571429) * Y_H * n_Y)))*proc2x2 + ( - i_X_B / 14)*proc2x3 + ( - i_X_B / 14)*proc2x4 + (( - i_X_B) / 14 - 1 / (7.0 * Y_A1))*proc3x1 + ( - i_X_B / 14.0)*proc3x2 + (1.0 / 14.0)*proc6 + (- i_X_B / 14.0)*proc9 + ( - i_X_B / 14.0) - (1.0 / (7.0 * (Y_A1*n_Y_AOB)))*proc10;
+/* SALK */  reac13 = ( - i_X_B / 14)*proc1 + (- i_X_B / 14)*proc2x1 + ( - (i_X_B / 14) + (1 - Y_H * n_Y) / (14 * ((3.428571429 - 2.8571429) * Y_H * n_Y)))*proc2x2 + ( - i_X_B / 14)*proc2x3 + ( - i_X_B / 14)*proc2x4 + (( - i_X_B) / 14 - 1 / (7.0 * Y_A1))*proc3x1 + ( - i_X_B / 14.0)*proc3x2 + (1.0 / 14.0)*proc6 + (- i_X_B / 14.0)*proc9 + (( - i_X_B / 14.0) - (1.0 / (7.0 * (Y_A1*n_Y_AOB))))*proc10;
 
 
 /* SNO2 */reac16 =  ((1 - Y_H * n_Y) / (1.14385714 * Y_H * n_Y))*proc2x1 + ( - (1 - Y_H * n_Y) / ((3.4285714 - 2.8571429) * Y_H * n_Y))*proc2x2 + (1 / Y_A1)*proc3x1 + ( - 1 / Y_A2)*proc3x2 + (- 1.0 / (Y_A1*n_Y_AOB))*proc9 + (1.0 / (Y_A1*n_Y_AOB))*proc10 ;
-/* SNO  */reac17 =  ((1 - Y_H * n_Y) / ((3.4285714 - 2.8571429) * Y_H * n_Y))*proc2x2 + ( - (1 - Y_H * n_Y) / ((3.4285714 - 2.8571429) * Y_H * n_Y))*proc2x3 + ( 2.0 / (Y_A1*n_Y_AOB))*proc9 + ( - 2.0 / (Y_A1*n_Y_AOB))*proc10;;
+/* SNO  */reac17 =  ((1 - Y_H * n_Y) / ((3.4285714 - 2.8571429) * Y_H * n_Y))*proc2x2 + ( - (1 - Y_H * n_Y) / ((3.4285714 - 2.8571429) * Y_H * n_Y))*proc2x3 + ( 2.0 / (Y_A1*n_Y_AOB))*proc9 + ( - 2.0 / (Y_A1*n_Y_AOB))*proc10;
 /* SN2O */reac18 =  ((1 - Y_H * n_Y) / ((3.4285714 - 2.8571429) * Y_H * n_Y))*proc2x3 + ( - (1 - Y_H * n_Y) / ((3.4285714 - 2.8571429) * Y_H * n_Y))*proc2x4 + ( 2.0 / (Y_A1*n_Y_AOB))*proc10;
 /* SN2  */reac19 =  ((1 - Y_H * n_Y) / ((3.4285714 - 2.8571429) * Y_H * n_Y))*proc2x4;
 /* XBA2 */reac20 = proc3x2 -proc5x2;
