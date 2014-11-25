@@ -20,10 +20,10 @@ disp(' ')
 
 plotflag = 1;
 
-starttime = 7;
+starttime = 7.0104;
 stoptime = 14;
 startindex=max(find(t <= starttime));
-stopindex=max(find(t <= stoptime));
+stopindex=min(find(t >= stoptime));
 
 time=t(startindex:stopindex);
 
@@ -66,17 +66,17 @@ PF_Qr  = 0.008;   % kWh/m3, pumping energy factor, AS sludge recycle
 PF_Qw  = 0.05;    % kWh/m3, pumping energy factor, AS wastage flow
 
 %cut out the parts of the files to be used
-inpart=in(startindex:(stopindex-1),:);
-ASinputpart=ASinput(startindex:(stopindex-1),:);
+% inpart=in(startindex:(stopindex-1),:);
+% ASinputpart=ASinput(startindex:(stopindex-1),:);
 reac1part=reac1(startindex:(stopindex-1),:);
 reac2part=reac2(startindex:(stopindex-1),:);
 reac3part=reac3(startindex:(stopindex-1),:);
 reac4part=reac4(startindex:(stopindex-1),:);
 reac5part=reac5(startindex:(stopindex-1),:);
-settlerpart=settler(startindex:(stopindex-1),:);
+% settlerpart=settler(startindex:(stopindex-1),:);
 effluentpart=effluent(startindex:(stopindex-1),:);
-sludgepart=sludge(startindex:(stopindex-1),:);
-recpart=rec(startindex:(stopindex-1),:);
+% sludgepart=sludge(startindex:(stopindex-1),:);
+% recpart=rec(startindex:(stopindex-1),:);
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -85,90 +85,90 @@ recpart=rec(startindex:(stopindex-1),:);
 %timevector = time_eval(2:end)-time_eval(1:(end-1));
 timevector=time(2:end)-time(1:(end-1));
 
-Qinvec = inpart(:,15).*timevector;
-SIinvec = inpart(:,1).*Qinvec;
-SSinvec = inpart(:,2).*Qinvec;     
-XIinvec = inpart(:,3).*Qinvec;
-XSinvec = inpart(:,4).*Qinvec;  
-XBHinvec = inpart(:,5).*Qinvec;  
-XBA1invec = inpart(:,6).*Qinvec;
-XPinvec = inpart(:,7).*Qinvec;
-SOinvec = inpart(:,8).*Qinvec;
-SNO3invec = inpart(:,9).*Qinvec;
-SNHinvec = inpart(:,10).*Qinvec;
-SNDinvec = inpart(:,11).*Qinvec;
-XNDinvec = inpart(:,12).*Qinvec;
-SALKinvec = inpart(:,13).*Qinvec;
-TSSinvec = inpart(:,14).*Qinvec;
-Tempinvec = inpart(:,16).*Qinvec;
-SNO2invec = inpart(:,17).*Qinvec;
-SNOinvec = inpart(:,18).*Qinvec;
-SN2Oinvec = inpart(:,19).*Qinvec;
-SN2invec = inpart(:,20).*Qinvec;
-XBA2invec = inpart(:,21).*Qinvec;
-Qintot = sum(Qinvec);
-Qinav = Qintot/totalt;
-
-
-SIinload = sum(SIinvec);
-SSinload = sum(SSinvec);
-XIinload = sum(XIinvec);
-XSinload = sum(XSinvec);
-XBHinload = sum(XBHinvec);
-XBA1inload = sum(XBA1invec);
-XPinload = sum(XPinvec);
-SOinload = sum(SOinvec);
-SNO3inload = sum(SNO3invec);
-SNHinload = sum(SNHinvec);
-SNDinload = sum(SNDinvec);
-XNDinload = sum(XNDinvec);
-SALKinload = sum(SALKinvec);
-TSSinload = sum(TSSinvec);
-Tempinload = sum(Tempinvec);
-SNO2inload = sum(SNO2invec);
-SNOinload = sum(SNOinvec);
-SN2Oinload = sum(SN2Oinvec);
-SN2inload = sum(SN2invec);
-XBA2inload = sum(XBA2invec);
-
-SIinav= SIinload/Qintot;
-SSinav= SSinload/Qintot;
-XIinav= XIinload/Qintot;
-XSinav= XSinload/Qintot;
-XBHinav= XBHinload/Qintot;
-XBA1inav= XBA1inload/Qintot;
-XPinav= XPinload/Qintot;
-SOinav= SOinload/Qintot;
-SNO3inav= SNO3inload/Qintot;
-SNHinav= SNHinload/Qintot;
-SNDinav= SNDinload/Qintot;
-XNDinav= XNDinload/Qintot;
-SALKinav= SALKinload/Qintot;
-TSSinav= TSSinload/Qintot;
-Tempinav= Tempinload/Qintot;
-SNO2inav= SNO2inload/Qintot;
-SNOinav= SNOinload/Qintot;
-SN2Oinav= SN2Oinload/Qintot;
-SN2inav= SN2inload/Qintot;
-XBA2inav= XBA2inload/Qintot;
-
-TKNinav =        SNHinav+SNDinav+XNDinav+i_X_B*(XBHinav+XBA1inav +XBA2inav )+i_X_P*(XIinav+XPinav);%%% XBA2 is inclued in TKN
-TNinav =        (SNO3inav + SNO2inav + SNOinav + SN2Oinav) + TKNinav; %%%%%%% the dissolved forms of N are included in NOx
-TCODinav =       SIinav+SSinav+XIinav+XSinav+XBHinav+XBA1inav+ XBA2inav +XPinav;%%% XBA2 is inclued in TCOD
-BOD5inav =       0.65*(SSinav+XSinav+(1-f_P)*(XBHinav+ XBA1inav + XBA2inav));%%%XBA2is inclued in BOD5
-
-totalNKjinvec2= (SNHinvec+SNDinvec+XNDinvec+i_X_B*(XBHinvec+XBA1invec + XBA2invec)+i_X_P*(XPinvec+XIinvec ))./Qinvec;%%% XBA2 is inclued in TKN
-totalNinvec2=   ((SNO3invec + SNO2invec + SNOinvec + SN2Oinvec))./Qinvec + totalNKjinvec2;%%%%%%% the dissolved forms of N are included in NOx
-totalCODinvec2= (SIinvec+SSinvec+XIinvec+XSinvec+XBHinvec+XBA1invec+XPinvec + XBA2invec)./Qinvec;%%XBA2  is inclued in TCOD
-SNHinvec2=       SNHinvec./Qinvec;
-TSSinvec2=       TSSinvec./Qinvec;
-BOD5invec2=     (0.65*(SSinvec+XSinvec+(1-f_P)*(XBHinvec+XBA1invec + XBA2invec)))./Qinvec;%%%XBA2 is inclued in BOD5
-
-totalNKjinload=  SNHinload+SNDinload+XNDinload+i_X_B*(XBHinload+XBA1inload + XBA2inload )+i_X_P*(XPinload+XIinload); %%%XBA2 is included in TKN
-totalNinload=   (SNO3inload + SNO2inload + SNOinload + SN2Oinload) + totalNKjinload;%%%%%%% the dissolved forms of N are included in NOx
-totalCODinload= (SIinload+SSinload+XIinload+XSinload+XBHinload+XBA1inload+ XBA2inload+ XPinload);%XBA2 is included in TCOD
-BOD5inload=     (0.65*(SSinload+XSinload+(1-f_P)*(XBHinload+XBA1inload + XBA2inload  )));%%%XBA2 is inclued in BOD5
-
+% Qinvec = inpart(:,15).*timevector;
+% SIinvec = inpart(:,1).*Qinvec;
+% SSinvec = inpart(:,2).*Qinvec;     
+% XIinvec = inpart(:,3).*Qinvec;
+% XSinvec = inpart(:,4).*Qinvec;  
+% XBHinvec = inpart(:,5).*Qinvec;  
+% XBA1invec = inpart(:,6).*Qinvec;
+% XPinvec = inpart(:,7).*Qinvec;
+% SOinvec = inpart(:,8).*Qinvec;
+% SNO3invec = inpart(:,9).*Qinvec;
+% SNHinvec = inpart(:,10).*Qinvec;
+% SNDinvec = inpart(:,11).*Qinvec;
+% XNDinvec = inpart(:,12).*Qinvec;
+% SALKinvec = inpart(:,13).*Qinvec;
+% TSSinvec = inpart(:,14).*Qinvec;
+% Tempinvec = inpart(:,16).*Qinvec;
+% SNO2invec = inpart(:,17).*Qinvec;
+% SNOinvec = inpart(:,18).*Qinvec;
+% SN2Oinvec = inpart(:,19).*Qinvec;
+% SN2invec = inpart(:,20).*Qinvec;
+% XBA2invec = inpart(:,21).*Qinvec;
+% Qintot = sum(Qinvec);
+% Qinav = Qintot/totalt;
+% 
+% 
+% SIinload = sum(SIinvec);
+% SSinload = sum(SSinvec);
+% XIinload = sum(XIinvec);
+% XSinload = sum(XSinvec);
+% XBHinload = sum(XBHinvec);
+% XBA1inload = sum(XBA1invec);
+% XPinload = sum(XPinvec);
+% SOinload = sum(SOinvec);
+% SNO3inload = sum(SNO3invec);
+% SNHinload = sum(SNHinvec);
+% SNDinload = sum(SNDinvec);
+% XNDinload = sum(XNDinvec);
+% SALKinload = sum(SALKinvec);
+% TSSinload = sum(TSSinvec);
+% Tempinload = sum(Tempinvec);
+% SNO2inload = sum(SNO2invec);
+% SNOinload = sum(SNOinvec);
+% SN2Oinload = sum(SN2Oinvec);
+% SN2inload = sum(SN2invec);
+% XBA2inload = sum(XBA2invec);
+% 
+% SIinav= SIinload/Qintot;
+% SSinav= SSinload/Qintot;
+% XIinav= XIinload/Qintot;
+% XSinav= XSinload/Qintot;
+% XBHinav= XBHinload/Qintot;
+% XBA1inav= XBA1inload/Qintot;
+% XPinav= XPinload/Qintot;
+% SOinav= SOinload/Qintot;
+% SNO3inav= SNO3inload/Qintot;
+% SNHinav= SNHinload/Qintot;
+% SNDinav= SNDinload/Qintot;
+% XNDinav= XNDinload/Qintot;
+% SALKinav= SALKinload/Qintot;
+% TSSinav= TSSinload/Qintot;
+% Tempinav= Tempinload/Qintot;
+% SNO2inav= SNO2inload/Qintot;
+% SNOinav= SNOinload/Qintot;
+% SN2Oinav= SN2Oinload/Qintot;
+% SN2inav= SN2inload/Qintot;
+% XBA2inav= XBA2inload/Qintot;
+% 
+% TKNinav =        SNHinav+SNDinav+XNDinav+i_X_B*(XBHinav+XBA1inav +XBA2inav )+i_X_P*(XIinav+XPinav);%%% XBA2 is inclued in TKN
+% TNinav =        (SNO3inav + SNO2inav + SNOinav + SN2Oinav) + TKNinav; %%%%%%% the dissolved forms of N are included in NOx
+% TCODinav =       SIinav+SSinav+XIinav+XSinav+XBHinav+XBA1inav+ XBA2inav +XPinav;%%% XBA2 is inclued in TCOD
+% BOD5inav =       0.65*(SSinav+XSinav+(1-f_P)*(XBHinav+ XBA1inav + XBA2inav));%%%XBA2is inclued in BOD5
+% 
+% totalNKjinvec2= (SNHinvec+SNDinvec+XNDinvec+i_X_B*(XBHinvec+XBA1invec + XBA1invec)+i_X_P*(XPinvec+XIinvec ))./Qinvec;%%% XBA2 is inclued in TKN
+% totalNinvec2=   ((SNO3invec + SNO2invec + SNOinvec + SN2Oinvec))./Qinvec + totalNKjinvec2;%%%%%%% the dissolved forms of N are included in NOx
+% totalCODinvec2= (SIinvec+SSinvec+XIinvec+XSinvec+XBHinvec+XBA1invec+XPinvec + XBA2invec)./Qinvec;%%XBA2  is inclued in TCOD
+% SNHinvec2=       SNHinvec./Qinvec;
+% TSSinvec2=       TSSinvec./Qinvec;
+% BOD5invec2=     (0.65*(SSinvec+XSinvec+(1-f_P)*(XBHinvec+XBA1invec + XBA2invec)))./Qinvec;%%%XBA2 is inclued in BOD5
+% 
+% totalNKjinload=  SNHinload+SNDinload+XNDinload+i_X_B*(XBHinload+XBA1inload + XBA2inload )+i_X_P*(XPinload+XIinload); %%%XBA2 is inclued in TKN
+% totalNinload=   (SNO3inload + SNO2inload + SNOinload + SN2Oinload) + totalNKjinload;%%%%%%% the dissolved forms of N are included in NOx
+% totalCODinload= (SIinload+SSinload+XIinload+XSinload+XBHinload+XBA1inload+ XBA2inload+ XPinload);%XBA2 is inclued in TCOD
+% BOD5inload=     (0.65*(SSinload+XSinload+(1-f_P)*(XBHinload+XBA1inload + XBA2inload  )));%%%XBA2 is inclued in BOD5
+% 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Effluent concentrations
@@ -257,9 +257,9 @@ BOD5_XPload = 0.25*(1-f_P)*(XPeload);
 
 BOD5eav = (BOD5_SSload + BOD5_XSload + BOD5_XBHload + BOD5_XBA1load + BOD5_XBA2load)/Qetot;%%%% XBA2 is included in the whole BOD5 balance
 
-totalNKjevec2=(SNHevec+SNDevec+XNDevec+i_X_B*(XBHevec+ XBA1evec + XBA2evec )+i_X_P*(XPevec+XIevec))./Qevec;%%XBA2 is included in TKN
+totalNKjevec2=(SNHevec+SNDevec+XNDevec+i_X_B*(XBHevec+ XBA1evec + XBA2evec )+i_X_P*(XPevec+XIevec))./Qevec;%%XBA2 as dummy state 5 is inclued in TKN
 totalNevec2=(SNO3evec + SNO2evec + SNOevec + SN2Oevec)./Qevec + totalNKjevec2 ;%%%%%%% the dissolved forms of N are included in NOx
-totalCODevec2=(SIevec+SSevec+XIevec+XSevec+XBHevec+XBA1evec + XPevec + XBA2evec)./Qevec;%%% XBA2 is included in TCOD
+totalCODevec2=(SIevec+SSevec+XIevec+XSevec+XBHevec+XBA1evec + XPevec + XBA2evec)./Qevec;%%% XBA2 as dummy state 5 is inclued in TCOD
 SNHevec2=SNHevec./Qevec;
 TSSevec2=TSSevec./Qevec;
 
@@ -271,9 +271,9 @@ BOD5_XBA1loadvec = 0.25*(1-f_P)*(XBA1evec);
 BOD5_XBA2loadvec = 0.25*(1-f_P)*(XBA2evec);%%%% New variable included in the balance XBA2
 BOD5_XPloadvec = 0.25*(1-f_P)*(XPevec);
 
-BOD5evec2 = (BOD5_SSloadvec + BOD5_XSloadvec + BOD5_XBHloadvec + BOD5_XBA1loadvec + BOD5_XBA2loadvec)./Qevec;%%%% XBA2 is included in the whole BOD5 balance %% BOD5_XPloadvec
+BOD5evec2 = (BOD5_SSloadvec + BOD5_XSloadvec + BOD5_XBHloadvec + BOD5_XBA1loadvec + BOD5_XBA2loadvec + BOD5_XPloadvec)./Qevec;%%%% XBA2 is included in the whole BOD5 balance
 
-totalNKjeload=SNHeload+SNDeload+XNDeload+i_X_B*(XBHeload + XBA1eload + XBA2eload)+i_X_P*(XPeload+XIeload);%%XBA2 is included in TKN
+totalNKjeload=SNHeload+SNDeload+XNDeload+i_X_B*(XBHeload + XBA1eload + XBA2eload)+i_X_P*(XPeload+XIeload);%%XBA2 as dummy state 5 is inclued in TKN
 totalNeload=(SNO3eload + SNO2eload+ SNOeload+ SN2Oeload) + totalNKjeload;%%%%%%% the dissolved forms of N are included in NOx
 totalCODeload=(SIeload+SSeload+XIeload+XSeload+XBHeload+XBA1eload+ XPeload + XBA2eload );%%% XBA2 as dummy state 5 is inclued in TCOD
 BOD5eload = (BOD5_SSload + BOD5_XSload + BOD5_XBHload + BOD5_XBA1load + BOD5_XBA2load );%%%% XBA2 is included in the whole BOD5 balance
@@ -281,134 +281,134 @@ BOD5eload = (BOD5_SSload + BOD5_XSload + BOD5_XBHload + BOD5_XBA1load + BOD5_XBA
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Sludge disposal concentrations
 
-Qsvec = sludgepart(:,15).*timevector;
-SIsvec = sludgepart(:,1).*Qsvec;
-SSsvec = sludgepart(:,2).*Qsvec;     
-XIsvec = sludgepart(:,3).*Qsvec;
-XSsvec = sludgepart(:,4).*Qsvec;  
-XBHsvec = sludgepart(:,5).*Qsvec;  
-XBA1svec = sludgepart(:,6).*Qsvec;
-XPsvec = sludgepart(:,7).*Qsvec;
-SOsvec = sludgepart(:,8).*Qsvec;
-SNO3svec = sludgepart(:,9).*Qsvec;
-SNHsvec = sludgepart(:,10).*Qsvec;
-SNDsvec = sludgepart(:,11).*Qsvec;
-XNDsvec = sludgepart(:,12).*Qsvec;
-SALKsvec = sludgepart(:,13).*Qsvec;
-TSSsvec = sludgepart(:,14).*Qsvec;
-Tempsvec = sludgepart(:,16).*Qsvec;
-SNO2svec = sludgepart(:,17).*Qsvec;
-SNOsvec = sludgepart(:,18).*Qsvec;
-SN2Osvec = sludgepart(:,19).*Qsvec;
-SN2svec = sludgepart(:,20).*Qsvec;
-XBA2svec = sludgepart(:,21).*Qsvec;
-
-Qstot = sum(Qsvec);
-Qsav = Qstot/totalt;
-
-SIsload = sum(SIsvec);
-SSsload = sum(SSsvec);
-XIsload = sum(XIsvec);
-XSsload = sum(XSsvec);
-XBHsload = sum(XBHsvec);
-XBA1sload = sum(XBA1svec);
-XPsload = sum(XPsvec);
-SOsload = sum(SOsvec);
-SNO3sload = sum(SNO3svec);
-SNHsload = sum(SNHsvec);
-SNDsload = sum(SNDsvec);
-XNDsload = sum(XNDsvec);
-SALKsload = sum(SALKsvec);
-TSSsload = sum(TSSsvec);
-Tempsload = sum(Tempsvec);
-SNO2sload = sum(SNO2svec);
-SNOsload = sum(SNOsvec);
-SN2Osload = sum(SN2Osvec);
-SN2sload = sum(SN2svec);
-XBA2sload = sum(XBA2svec);
-
-
-SIsav = SIsload/Qstot;
-SSsav = SSsload/Qstot;
-XIsav = XIsload/Qstot;
-XSsav = XSsload/Qstot;
-XBHsav = XBHsload/Qstot;
-XBA1sav = XBA1sload/Qstot;
-XPsav = XPsload/Qstot;
-SOsav = SOsload/Qstot;
-SNO3sav = SNO3sload/Qstot;
-SNHsav = SNHsload/Qstot;
-SNDsav = SNDsload/Qstot;
-XNDsav = XNDsload/Qstot;
-SALKsav = SALKsload/Qstot;
-TSSsav = TSSsload/Qstot;
-Tempsav = Tempsload/Qstot;
-SNO2sav = SNO2sload/Qstot;
-SNOsav = SNOsload/Qstot;
-SN2Osav = SN2Osload/Qstot;
-SN2sav = SN2sload/Qstot;
-XBA2sav = XBA2sload/Qstot;
-
-TKNsav = SNHsav+SNDsav+XNDsav+i_X_B*(XBHsav+XBA1sav + XBA2sav)+i_X_P*(XIsav + XPsav + XBA2sav);%%% XBA2  is inclued in TKN
-TNsav = (SNO3sav + SNO2sav + SNOsav + SN2Osav) + TKNsav;%%%%%%% the dissolved forms of N are included in NOx
-TCODsav = SIsav+SSsav+XIsav+XSsav+XBHsav+XBA1sav+XPsav + XBA2sav;%% XBA2  is inclued in TCOD
-BOD5sav = 0.25*(SSsav+XSsav+(1-f_P)*(XBHsav + XBA1sav + XBA2sav));%% XBA2  is inclued in BOD5
-
-totalNKjsvec2=(SNHsvec+SNDsvec+XNDsvec+i_X_B*(XBHsvec + XBA1svec + XBA2svec )+i_X_P*(XPsvec+XIsvec))./Qsvec;%%% XBA2  is inclued in TKN
-totalNsvec2=((SNO3svec + SNO2svec + SNOsvec + SN2Osvec))./Qsvec + totalNKjsvec2;%%%%%%% the dissolved forms of N are included in NOx
-totalCODsvec2=(SIsvec+SSsvec+XIsvec+XSsvec+XBHsvec+XBA1svec+XPsvec + XBA2svec)./Qsvec;%% XBA2is inclued in TCOD
-SNHsvec2=SNHsvec./Qsvec;
-TSSsvec2=TSSsvec./Qsvec;
-BOD5svec2=(0.25*(SSsvec+XSsvec+(1-f_P)*(XBHsvec+ XBA1svec + XBA2svec)))./Qsvec;%% XBA2 is inclued in BOD5
-
-totalNKjsload=SNHsload+SNDsload+XNDsload+i_X_B*(XBHsload + XBA1sload + XBA2sload)+i_X_P*(XPsload+XIsload);%%% XBA2  is inclued in TKN
-totalNsload=(SNO3sload + SNO2sload + SNOsload + SN2Osload) + totalNKjsload;%%%%%%% the dissolved forms of N are included in NOx
-totalCODsload=(SIsload+SSsload+XIsload+XSsload+XBHsload+XBA1sload+XPsload+XBA2sload);%% XBA2  is inclued in TCOD
-BOD5sload=(0.25*(SSsload+XSsload+(1-f_P)*(XBHsload+XBA1sload+XBA2sload)));%% XBA2 is inclued in BOD5
-
-% Influent and Effluent quality index
-% Note: DUMMY variables should be added here if they have COD, BOD or N content
-% In this case, dummy state are included becuase they have C and N
-TSSin=inpart(:,14);
-CODin=inpart(:,1)+inpart(:,2)+inpart(:,3)+inpart(:,4)+inpart(:,5)+inpart(:,6)+inpart(:,7) + inpart(:,21);%% XBA2 is inclued in COD
-SNKjin=inpart(:,10)+inpart(:,11)+inpart(:,12)+i_X_B*(inpart(:,5)+inpart(:,6) + inpart(:,21))+i_X_P*(inpart(:,3)+inpart(:,7));%%% XBA2  is inclued in TKN
-SNOin=inpart(:,9) + inpart(:,17)+ inpart(:,18)+ inpart(:,19);%%%%%% the dissolved forms of N are included in NOx
-BOD5in=0.65*(inpart(:,2)+inpart(:,4)+(1-f_P)*(inpart(:,5)+inpart(:,6) + inpart(:,21)));%% XBA2 is inclued in BOD
-
-TSSe=effluentpart(:,14);
-CODe=effluentpart(:,1)+effluentpart(:,2)+effluentpart(:,3)+effluentpart(:,4)+effluentpart(:,5)+effluentpart(:,6)+effluentpart(:,7)+ effluentpart(:,21);%% XBA2  is inclued in COD
-SNKje=effluentpart(:,10)+effluentpart(:,11)+effluentpart(:,12)+i_X_B*(effluentpart(:,5)+effluentpart(:,6)+effluentpart(:,21))+i_X_P*(effluentpart(:,3)+effluentpart(:,7));%%% XBA2 is inclued in TKN
-SNOe=effluentpart(:,9) + effluentpart(:,17) + effluentpart(:,18) + effluentpart(:,19);%% the dissolved forms of N are included in NOx
-BOD5e=BOD5evec2; % XBA2 is inclued in BOD
-
-EQIvecinst=(BTSS*TSSe+BCOD*CODe+BNKj*SNKje+BNO*SNOe+BBOD5*BOD5e).*effluentpart(:,15);
-
-IQIvec=(BTSS*TSSin+BCOD*CODin+BNKj*SNKjin+BNO*SNOin+BBOD5*BOD5in).*Qinvec;
-IQI=sum(IQIvec)/(totalt*1000);
-EQIvec=(BTSS*TSSe +BCOD*CODe +BNKj*SNKje +BNO*SNOe +BBOD5*BOD5e).*Qevec;
-EQI=sum(EQIvec)/(totalt*1000);
-
-% Sludge production (calculated as kg TSS produced for the complete evaluation period)
-
-TSSreactors_start = (reac1part(1,14)*VOL1+reac2part(1,14)*VOL2+reac3part(1,14)*VOL3+reac4part(1,14)*VOL4+reac5part(1,14)*VOL5)/1000;
-TSSreactors_end = (reac1part(end,14)*VOL1+reac2part(end,14)*VOL2+reac3part(end,14)*VOL3+reac4part(end,14)*VOL4+reac5part(end,14)*VOL5)/1000;
-
-TSSsettler_start=(settlerpart(1,54)*DIM(1)*DIM(2)/10+settlerpart(1,55)*DIM(1)*DIM(2)/10+settlerpart(1,56)*DIM(1)*DIM(2)/10+settlerpart(1,57)*DIM(1)*DIM(2)/10+settlerpart(1,58)*DIM(1)*DIM(2)/10+settlerpart(1,59)*DIM(1)*DIM(2)/10+settlerpart(1,60)*DIM(1)*DIM(2)/10+settlerpart(1,61)*DIM(1)*DIM(2)/10+settlerpart(1,62)*DIM(1)*DIM(2)/10+settlerpart(1,63)*DIM(1)*DIM(2)/10)/1000;
-TSSsettler_end=(settlerpart(end,54)*DIM(1)*DIM(2)/10+settlerpart(end,55)*DIM(1)*DIM(2)/10+settlerpart(end,56)*DIM(1)*DIM(2)/10+settlerpart(end,57)*DIM(1)*DIM(2)/10+settlerpart(end,58)*DIM(1)*DIM(2)/10+settlerpart(end,59)*DIM(1)*DIM(2)/10+settlerpart(end,60)*DIM(1)*DIM(2)/10+settlerpart(end,61)*DIM(1)*DIM(2)/10+settlerpart(end,62)*DIM(1)*DIM(2)/10+settlerpart(end,63)*DIM(1)*DIM(2)/10)/1000;
-
-TSSsludgeconc=sludgepart(:,14)/1000;  %kg/m3
-Qsludgeflow=sludgepart(:,15);         %m3/d
-
-TSSsludgevec=TSSsludgeconc.*Qsludgeflow.*timevector;
-
-TSSproduced=sum(TSSsludgevec)+TSSreactors_end+TSSsettler_end-TSSreactors_start-TSSsettler_start;
-TSSproducedperd = TSSproduced/totalt; %for OCI
-
-Sludgetoeff=TSSeload/1000;
-Sludgetoeffperd=TSSeload/(1000*totalt);
-
-Totsludgeprod=TSSproduced+TSSeload/1000;
-Totsludgeprodperd=TSSproduced/totalt+TSSeload/(1000*totalt);
+% Qsvec = sludgepart(:,15).*timevector;
+% SIsvec = sludgepart(:,1).*Qsvec;
+% SSsvec = sludgepart(:,2).*Qsvec;     
+% XIsvec = sludgepart(:,3).*Qsvec;
+% XSsvec = sludgepart(:,4).*Qsvec;  
+% XBHsvec = sludgepart(:,5).*Qsvec;  
+% XBA1svec = sludgepart(:,6).*Qsvec;
+% XPsvec = sludgepart(:,7).*Qsvec;
+% SOsvec = sludgepart(:,8).*Qsvec;
+% SNO3svec = sludgepart(:,9).*Qsvec;
+% SNHsvec = sludgepart(:,10).*Qsvec;
+% SNDsvec = sludgepart(:,11).*Qsvec;
+% XNDsvec = sludgepart(:,12).*Qsvec;
+% SALKsvec = sludgepart(:,13).*Qsvec;
+% TSSsvec = sludgepart(:,14).*Qsvec;
+% Tempsvec = sludgepart(:,16).*Qsvec;
+% SNO2svec = sludgepart(:,17).*Qsvec;
+% SNOsvec = sludgepart(:,18).*Qsvec;
+% SN2Osvec = sludgepart(:,19).*Qsvec;
+% SN2svec = sludgepart(:,20).*Qsvec;
+% XBA2svec = sludgepart(:,21).*Qsvec;
+% 
+% Qstot = sum(Qsvec);
+% Qsav = Qstot/totalt;
+% 
+% SIsload = sum(SIsvec);
+% SSsload = sum(SSsvec);
+% XIsload = sum(XIsvec);
+% XSsload = sum(XSsvec);
+% XBHsload = sum(XBHsvec);
+% XBA1sload = sum(XBA1svec);
+% XPsload = sum(XPsvec);
+% SOsload = sum(SOsvec);
+% SNO3sload = sum(SNO3svec);
+% SNHsload = sum(SNHsvec);
+% SNDsload = sum(SNDsvec);
+% XNDsload = sum(XNDsvec);
+% SALKsload = sum(SALKsvec);
+% TSSsload = sum(TSSsvec);
+% Tempsload = sum(Tempsvec);
+% SNO2sload = sum(SNO2svec);
+% SNOsload = sum(SNOsvec);
+% SN2Osload = sum(SN2Osvec);
+% SN2sload = sum(SN2svec);
+% XBA2sload = sum(XBA2svec);
+% 
+% 
+% SIsav = SIsload/Qstot;
+% SSsav = SSsload/Qstot;
+% XIsav = XIsload/Qstot;
+% XSsav = XSsload/Qstot;
+% XBHsav = XBHsload/Qstot;
+% XBA1sav = XBA1sload/Qstot;
+% XPsav = XPsload/Qstot;
+% SOsav = SOsload/Qstot;
+% SNO3sav = SNO3sload/Qstot;
+% SNHsav = SNHsload/Qstot;
+% SNDsav = SNDsload/Qstot;
+% XNDsav = XNDsload/Qstot;
+% SALKsav = SALKsload/Qstot;
+% TSSsav = TSSsload/Qstot;
+% Tempsav = Tempsload/Qstot;
+% SNO2sav = SNO2sload/Qstot;
+% SNOsav = SNOsload/Qstot;
+% SN2Osav = SN2Osload/Qstot;
+% SN2sav = SN2sload/Qstot;
+% XBA2sav = XBA2sload/Qstot;
+% 
+% TKNsav = SNHsav+SNDsav+XNDsav+i_X_B*(XBHsav+XBA1sav + XBA2sav)+i_X_P*(XIsav + XPsav + XBA2sav);%%% XBA2  is inclued in TKN
+% TNsav = (SNO3sav + SNO2sav + SNOsav + SN2Osav) + TKNsav;%%%%%%% the dissolved forms of N are included in NOx
+% TCODsav = SIsav+SSsav+XIsav+XSsav+XBHsav+XBA1sav+XPsav + XBA2sav;%% XBA2  is inclued in TCOD
+% BOD5sav = 0.25*(SSsav+XSsav+(1-f_P)*(XBHsav + XBA1sav + XBA2sav));%% XBA2  is inclued in BOD5
+% 
+% totalNKjsvec2=(SNHsvec+SNDsvec+XNDsvec+i_X_B*(XBHsvec + XBA1svec + XBA2svec )+i_X_P*(XPsvec+XIsvec))./Qsvec;%%% XBA2  is inclued in TKN
+% totalNsvec2=((SNO3svec + SNO2svec + SNOsvec + SN2Osvec))./Qsvec + totalNKjsvec2;%%%%%%% the dissolved forms of N are included in NOx
+% totalCODsvec2=(SIsvec+SSsvec+XIsvec+XSsvec+XBHsvec+XBA1svec+XPsvec + XBA2svec)./Qsvec;%% XBA2is inclued in TCOD
+% SNHsvec2=SNHsvec./Qsvec;
+% TSSsvec2=TSSsvec./Qsvec;
+% BOD5svec2=(0.25*(SSsvec+XSsvec+(1-f_P)*(XBHsvec+ XBA1svec + XBA2svec)))./Qsvec;%% XBA2 is inclued in BOD5
+% 
+% totalNKjsload=SNHsload+SNDsload+XNDsload+i_X_B*(XBHsload + XBA1sload + XBA2sload)+i_X_P*(XPsload+XIsload);%%% XBA2  is inclued in TKN
+% totalNsload=(SNO3sload + SNO2sload + SNOsload + SN2Osload) + totalNKjsload;%%%%%%% the dissolved forms of N are included in NOx
+% totalCODsload=(SIsload+SSsload+XIsload+XSsload+XBHsload+XBA1sload+XPsload+XBA2sload);%% XBA2  is inclued in TCOD
+% BOD5sload=(0.25*(SSsload+XSsload+(1-f_P)*(XBHsload+XBA1sload+XBA2sload)));%% XBA2 is inclued in BOD5
+% 
+% % Influent and Effluent quality index
+% % Note: DUMMY variables should be added here if they have COD, BOD or N content
+% % In this case, dummy state are included becuase they have C and N
+% TSSin=inpart(:,14);
+% CODin=inpart(:,1)+inpart(:,2)+inpart(:,3)+inpart(:,4)+inpart(:,5)+inpart(:,6)+inpart(:,7) + inpart(:,21);%% XBA2 is inclued in COD
+% SNKjin=inpart(:,10)+inpart(:,11)+inpart(:,12)+i_X_B*(inpart(:,5)+inpart(:,6) + inpart(:,21))+i_X_P*(inpart(:,3)+inpart(:,7));%%% XBA2  is inclued in TKN
+% SNOin=inpart(:,9) + inpart(:,17)+ inpart(:,18)+ inpart(:,19);%%%%%% the dissolved forms of N are included in NOx
+% BOD5in=0.65*(inpart(:,2)+inpart(:,4)+(1-f_P)*(inpart(:,5)+inpart(:,6) + inpart(:,21)));%% XBA2 is inclued in BOD
+% 
+% TSSe=effluentpart(:,14);
+% CODe=effluentpart(:,1)+effluentpart(:,2)+effluentpart(:,3)+effluentpart(:,4)+effluentpart(:,5)+effluentpart(:,6)+effluentpart(:,7)+ effluentpart(:,21);%% XBA2  is inclued in COD
+% SNKje=effluentpart(:,10)+effluentpart(:,11)+effluentpart(:,12)+i_X_B*(effluentpart(:,5)+effluentpart(:,6)+effluentpart(:,21))+i_X_P*(effluentpart(:,3)+effluentpart(:,7));%%% XBA2 is inclued in TKN
+% SNOe=effluentpart(:,9) + effluentpart(:,17) + effluentpart(:,18) + effluentpart(:,19);%% the dissolved forms of N are included in NOx
+% BOD5e=BOD5evec2; % XBA2 is inclued in BOD
+% 
+% EQIvecinst=(BTSS*TSSe+BCOD*CODe+BNKj*SNKje+BNO*SNOe+BBOD5*BOD5e).*effluentpart(:,15);
+% 
+% IQIvec=(BTSS*TSSin+BCOD*CODin+BNKj*SNKjin+BNO*SNOin+BBOD5*BOD5in).*Qinvec;
+% IQI=sum(IQIvec)/(totalt*1000);
+% EQIvec=(BTSS*TSSe +BCOD*CODe +BNKj*SNKje +BNO*SNOe +BBOD5*BOD5e).*Qevec;
+% EQI=sum(EQIvec)/(totalt*1000);
+% 
+% % Sludge production (calculated as kg TSS produced for the complete evaluation period)
+% 
+% TSSreactors_start = (reac1part(1,14)*VOL1+reac2part(1,14)*VOL2+reac3part(1,14)*VOL3+reac4part(1,14)*VOL4+reac5part(1,14)*VOL5)/1000;
+% TSSreactors_end = (reac1part(end,14)*VOL1+reac2part(end,14)*VOL2+reac3part(end,14)*VOL3+reac4part(end,14)*VOL4+reac5part(end,14)*VOL5)/1000;
+% 
+% TSSsettler_start=(settlerpart(1,54)*DIM(1)*DIM(2)/10+settlerpart(1,55)*DIM(1)*DIM(2)/10+settlerpart(1,56)*DIM(1)*DIM(2)/10+settlerpart(1,57)*DIM(1)*DIM(2)/10+settlerpart(1,58)*DIM(1)*DIM(2)/10+settlerpart(1,59)*DIM(1)*DIM(2)/10+settlerpart(1,60)*DIM(1)*DIM(2)/10+settlerpart(1,61)*DIM(1)*DIM(2)/10+settlerpart(1,62)*DIM(1)*DIM(2)/10+settlerpart(1,63)*DIM(1)*DIM(2)/10)/1000;
+% TSSsettler_end=(settlerpart(end,54)*DIM(1)*DIM(2)/10+settlerpart(end,55)*DIM(1)*DIM(2)/10+settlerpart(end,56)*DIM(1)*DIM(2)/10+settlerpart(end,57)*DIM(1)*DIM(2)/10+settlerpart(end,58)*DIM(1)*DIM(2)/10+settlerpart(end,59)*DIM(1)*DIM(2)/10+settlerpart(end,60)*DIM(1)*DIM(2)/10+settlerpart(end,61)*DIM(1)*DIM(2)/10+settlerpart(end,62)*DIM(1)*DIM(2)/10+settlerpart(end,63)*DIM(1)*DIM(2)/10)/1000;
+% 
+% TSSsludgeconc=sludgepart(:,14)/1000;  %kg/m3
+% Qsludgeflow=sludgepart(:,15);         %m3/d
+% 
+% TSSsludgevec=TSSsludgeconc.*Qsludgeflow.*timevector;
+% 
+% TSSproduced=sum(TSSsludgevec)+TSSreactors_end+TSSsettler_end-TSSreactors_start-TSSsettler_start;
+% TSSproducedperd = TSSproduced/totalt; %for OCI
+% 
+% Sludgetoeff=TSSeload/1000;
+% Sludgetoeffperd=TSSeload/(1000*totalt);
+% 
+% Totsludgeprod=TSSproduced+TSSeload/1000;
+% Totsludgeprodperd=TSSproduced/totalt+TSSeload/(1000*totalt);
 
 % Aeration energy (calculated as kWh consumed for the complete evaluation period)
 kla1vec = kla1in(startindex:(stopindex-1),:);
@@ -449,15 +449,15 @@ mixenergy = mixenergyreac;
 mixenergyperd = mixenergy/totalt;
 
 % Pumping energy (calculated as kWh consumed for the complete evaluation period)
-Qintrflow = recpart(:,15);
-Qrflow = settlerpart(:,15);
-Qwflow = settlerpart(:,27);
+% Qintrflow = recpart(:,15);
+% Qrflow = settlerpart(:,15);
+% Qwflow = settlerpart(:,27);
 
 % should we add pumping energy for storage tank pumping?
 
-pumpenergyvec = PF_Qintr*Qintrflow+PF_Qr*Qrflow+PF_Qw*Qwflow;
-pumpenergy = sum(pumpenergyvec.*timevector);
-pumpenergyperd=pumpenergy/totalt;
+% pumpenergyvec = PF_Qintr*Qintrflow+PF_Qr*Qrflow+PF_Qw*Qwflow;
+% pumpenergy = sum(pumpenergyvec.*timevector);
+% pumpenergyperd=pumpenergy/totalt;
 
 % Carbon source addition
 carbon1vec = carbon1in(startindex:(stopindex-1),:);
@@ -472,80 +472,80 @@ carbonmass = sum(carbonmassvec.*timevector); %kg COD
 carbonmassperd = carbonmass/totalt; %for OCI
 
 % Operational Cost Index, OCI
-TSScost=5*TSSproducedperd;
+% TSScost=5*TSSproducedperd;
 airenergycost=1*airenergyperd;
 mixenergycost=1*mixenergyperd;
-pumpenergycost=1*pumpenergyperd;
+% pumpenergycost=1*pumpenergyperd;
 carbonmasscost=3*carbonmassperd;
 
-OCI=TSScost+airenergycost+mixenergycost+pumpenergycost+carbonmasscost;
+% OCI=TSScost+airenergycost+mixenergycost+pumpenergycost+carbonmasscost;
 
 % Calculate 95% percentiles for effluent SNH, TN and TSS
 SNHeffprctile=prctile(SNHevec2,95);
 TNeffprctile=prctile(totalNevec2,95);
 TSSeffprctile=prctile(TSSevec2,95);
 
-disp(' ')
-disp(['Overall plant performance during time ',num2str(time(1)),' to ',num2str(time(end)),' days'])
-disp('*****************************************************')
-disp(' ')
-disp('Influent average concentrations based on load')
-disp('---------------------------------------------')
-disp(['Influent average flow rate = ',num2str(Qinav),' m3/d'])
-disp(['Influent average SI conc = ',num2str(SIinav),' g COD/m3'])
-disp(['Influent average SS conc = ',num2str(SSinav),' g COD/m3'])
-disp(['Influent average XI conc = ',num2str(XIinav),' g COD/m3'])
-disp(['Influent average XS conc = ',num2str(XSinav),' g COD/m3'])
-disp(['Influent average XBH conc = ',num2str(XBHinav),' g COD/m3'])
-disp(['Influent average XBA1 conc = ',num2str(XBA1inav),' g COD/m3'])
-disp(['Influent average XP conc = ',num2str(XPinav),' g COD/m3'])
-disp(['Influent average SO conc = ',num2str(SOinav),' g (-COD)/m3'])
-disp(['Influent average SNO3 conc = ',num2str(SNO3inav),' g N/m3'])
-disp(['Influent average SNH conc = ',num2str(SNHinav),' g N/m3  (limit = 4 g N/m3)'])
-disp(['Influent average SND conc = ',num2str(SNDinav),' g N/m3'])
-disp(['Influent average XND conc = ',num2str(XNDinav),' g N/m3'])
-disp(['Influent average SALK conc = ',num2str(SALKinav),' mol HCO3/m3'])
-disp(['Influent average TSS conc = ',num2str(TSSinav),' g SS/m3  (limit = 30 g SS/m3)'])
-disp(['Influent average Temperature = ',num2str(Tempinav),' degC'])
-disp(['Influent average SNO2 conc = ',num2str(SNO2inav),' g N/m3'])
-disp(['Influent average SNO conc = ',num2str(SNOinav),' g N/m3'])
-disp(['Influent average SN2O conc = ',num2str(SN2Oinav),' g N/m3'])
-disp(['Influent average SN2 conc = ',num2str(SN2inav),' g N/m3'])
-disp(['Influent average XBA2 conc = ',num2str(XBA2inav),' g COD/m3'])
+% disp(' ')
+% disp(['Overall plant performance during time ',num2str(time(1)),' to ',num2str(time(end)),' days'])
+% disp('*****************************************************')
+% disp(' ')
+% disp('Influent average concentrations based on load')
+% disp('---------------------------------------------')
+% disp(['Influent average flow rate = ',num2str(Qinav),' m3/d'])
+% disp(['Influent average SI conc = ',num2str(SIinav),' g COD/m3'])
+% disp(['Influent average SS conc = ',num2str(SSinav),' g COD/m3'])
+% disp(['Influent average XI conc = ',num2str(XIinav),' g COD/m3'])
+% disp(['Influent average XS conc = ',num2str(XSinav),' g COD/m3'])
+% disp(['Influent average XBH conc = ',num2str(XBHinav),' g COD/m3'])
+% disp(['Influent average XBA1 conc = ',num2str(XBA1inav),' g COD/m3'])
+% disp(['Influent average XP conc = ',num2str(XPinav),' g COD/m3'])
+% disp(['Influent average SO conc = ',num2str(SOinav),' g (-COD)/m3'])
+% disp(['Influent average SNO3 conc = ',num2str(SNO3inav),' g N/m3'])
+% disp(['Influent average SNH conc = ',num2str(SNHinav),' g N/m3  (limit = 4 g N/m3)'])
+% disp(['Influent average SND conc = ',num2str(SNDinav),' g N/m3'])
+% disp(['Influent average XND conc = ',num2str(XNDinav),' g N/m3'])
+% disp(['Influent average SALK conc = ',num2str(SALKinav),' mol HCO3/m3'])
+% disp(['Influent average TSS conc = ',num2str(TSSinav),' g SS/m3  (limit = 30 g SS/m3)'])
+% disp(['Influent average Temperature = ',num2str(Tempinav),' degC'])
+% disp(['Influent average SNO2 conc = ',num2str(SNO2inav),' g N/m3'])
+% disp(['Influent average SNO conc = ',num2str(SNOinav),' g N/m3'])
+% disp(['Influent average SN2O conc = ',num2str(SN2Oinav),' g N/m3'])
+% disp(['Influent average SN2 conc = ',num2str(SN2inav),' g N/m3'])
+% disp(['Influent average XBA2 conc = ',num2str(XBA2inav),' g COD/m3'])
 
-disp(' ')
-disp(['Influent average Kjeldahl N conc = ',num2str(TKNinav),' g N/m3'])
-disp(['Influent average total N conc = ',num2str(TNinav),' g N/m3  (limit = 18 g N/m3)'])
-disp(['Influent average total COD conc = ',num2str(TCODinav),' g COD/m3  (limit = 100 g COD/m3)'])
-disp(['Influent average BOD5 conc = ',num2str(BOD5inav),' g/m3  (limit = 10 g/m3)'])
-disp(' ')
-disp('Influent average load')
-disp('---------------------')
-disp(['Influent average SI load = ',num2str(SIinload/(1000*totalt)),' kg COD/day'])
-disp(['Influent average SS load = ',num2str(SSinload/(1000*totalt)),' kg COD/day'])
-disp(['Influent average XI load = ',num2str(XIinload/(1000*totalt)),' kg COD/day'])
-disp(['Influent average XS load = ',num2str(XSinload/(1000*totalt)),' kg COD/day'])
-disp(['Influent average XBH load = ',num2str(XBHinload/(1000*totalt)),' kg COD/day'])
-disp(['Influent average XBA1 load = ',num2str(XBA1inload/(1000*totalt)),' kg COD/day'])
-disp(['Influent average XP load = ',num2str(XPinload/(1000*totalt)),' kg COD/day'])
-disp(['Influent average SO load = ',num2str(SOinload/(1000*totalt)),' kg (-COD)/day'])
-disp(['Influent average SNO3 load = ',num2str(SNO3inload/(1000*totalt)),' kg N/day'])
-disp(['Influent average SNH load = ',num2str(SNHinload/(1000*totalt)),' kg N/day'])
-disp(['Influent average SND load = ',num2str(SNDinload/(1000*totalt)),' kg N/day'])
-disp(['Influent average XND load = ',num2str(XNDinload/(1000*totalt)),' kg N/day'])
-disp(['Influent average SALK load = ',num2str(SALKinload/(1000*totalt)),' kmol HCO3/day'])
-disp(['Influent average TSS load = ',num2str(TSSinload/(1000*totalt)),' kg SS/day'])
-disp(['Influent average SNO2 load = ',num2str(SNO2inload/(1000*totalt)),' kg N/day'])
-disp(['Influent average SNO load = ',num2str(SNOinload/(1000*totalt)),' kg N/day'])
-disp(['Influent average SNO load = ',num2str(SN2Oinload/(1000*totalt)),' kg N/day'])
-disp(['Influent average SN2O load = ',num2str(SN2inload/(1000*totalt)),' kg N/day'])
-disp(['Influent average SN2 load = ',num2str(XBA2inload/(1000*totalt)),' kg COD/day'])
-
-disp(' ')
-disp(['Influent average Kjeldahl N load = ',num2str(totalNKjinload/(1000*totalt)),' kg N/d'])
-disp(['Influent average total N load = ',num2str(totalNinload/(1000*totalt)),' kg N/d'])
-disp(['Influent average total COD load = ',num2str(totalCODinload/(1000*totalt)),' kg COD/d'])
-disp(['Influent average BOD5 load = ',num2str(BOD5inload/(1000*totalt)),' kg BOD5/d'])
+% disp(' ')
+% disp(['Influent average Kjeldahl N conc = ',num2str(TKNinav),' g N/m3'])
+% disp(['Influent average total N conc = ',num2str(TNinav),' g N/m3  (limit = 18 g N/m3)'])
+% disp(['Influent average total COD conc = ',num2str(TCODinav),' g COD/m3  (limit = 100 g COD/m3)'])
+% disp(['Influent average BOD5 conc = ',num2str(BOD5inav),' g/m3  (limit = 10 g/m3)'])
+% disp(' ')
+% disp('Influent average load')
+% disp('---------------------')
+% disp(['Influent average SI load = ',num2str(SIinload/(1000*totalt)),' kg COD/day'])
+% disp(['Influent average SS load = ',num2str(SSinload/(1000*totalt)),' kg COD/day'])
+% disp(['Influent average XI load = ',num2str(XIinload/(1000*totalt)),' kg COD/day'])
+% disp(['Influent average XS load = ',num2str(XSinload/(1000*totalt)),' kg COD/day'])
+% disp(['Influent average XBH load = ',num2str(XBHinload/(1000*totalt)),' kg COD/day'])
+% disp(['Influent average XBA1 load = ',num2str(XBA1inload/(1000*totalt)),' kg COD/day'])
+% disp(['Influent average XP load = ',num2str(XPinload/(1000*totalt)),' kg COD/day'])
+% disp(['Influent average SO load = ',num2str(SOinload/(1000*totalt)),' kg (-COD)/day'])
+% disp(['Influent average SNO3 load = ',num2str(SNO3inload/(1000*totalt)),' kg N/day'])
+% disp(['Influent average SNH load = ',num2str(SNHinload/(1000*totalt)),' kg N/day'])
+% disp(['Influent average SND load = ',num2str(SNDinload/(1000*totalt)),' kg N/day'])
+% disp(['Influent average XND load = ',num2str(XNDinload/(1000*totalt)),' kg N/day'])
+% disp(['Influent average SALK load = ',num2str(SALKinload/(1000*totalt)),' kmol HCO3/day'])
+% disp(['Influent average TSS load = ',num2str(TSSinload/(1000*totalt)),' kg SS/day'])
+% disp(['Influent average SNO2 load = ',num2str(SNO2inload/(1000*totalt)),' kg N/day'])
+% disp(['Influent average SNO load = ',num2str(SNOinload/(1000*totalt)),' kg N/day'])
+% disp(['Influent average SNO load = ',num2str(SN2Oinload/(1000*totalt)),' kg N/day'])
+% disp(['Influent average SN2O load = ',num2str(SN2inload/(1000*totalt)),' kg N/day'])
+% disp(['Influent average SN2 load = ',num2str(XBA2inload/(1000*totalt)),' kg COD/day'])
+% 
+% disp(' ')
+% disp(['Influent average Kjeldahl N load = ',num2str(totalNKjinload/(1000*totalt)),' kg N/d'])
+% disp(['Influent average total N load = ',num2str(totalNinload/(1000*totalt)),' kg N/d'])
+% disp(['Influent average total COD load = ',num2str(totalCODinload/(1000*totalt)),' kg COD/d'])
+% disp(['Influent average BOD5 load = ',num2str(BOD5inload/(1000*totalt)),' kg BOD5/d'])
 
 
 disp(' ')
@@ -597,9 +597,9 @@ disp(['Effluent average SALK load = ',num2str(SALKeload/(1000*totalt)),' kmol HC
 disp(['Effluent average TSS load = ',num2str(TSSeload/(1000*totalt)),' kg SS/day'])
 disp(['Effluent average SNO2 load = ',num2str(SNO2eload/(1000*totalt)),' kg N/day'])
 disp(['Effluent average SNO load = ',num2str(SNOeload/(1000*totalt)),' kg N/day'])
-disp(['Effluent average SNO load = ',num2str(SN2Oeload/(1000*totalt)),' kg N/day'])
-disp(['Effluent average SN2O load = ',num2str(SN2eload/(1000*totalt)),' kg N/day'])
-disp(['Effluent average SN2 load = ',num2str(XBA2eload/(1000*totalt)),' kg COD/day'])
+disp(['Effluent average SN2O load = ',num2str(SN2Oeload/(1000*totalt)),' kg N/day'])
+disp(['Effluent average SN2 load = ',num2str(SN2eload/(1000*totalt)),' kg N/day'])
+disp(['Effluent average XBA2 load = ',num2str(XBA2eload/(1000*totalt)),' kg COD/day'])
 
 disp(' ')
 disp(['Effluent average Kjeldahl N load = ',num2str(totalNKjeload/(1000*totalt)),' kg N/d'])
@@ -607,92 +607,92 @@ disp(['Effluent average total N load = ',num2str(totalNeload/(1000*totalt)),' kg
 disp(['Effluent average total COD load = ',num2str(totalCODeload/(1000*totalt)),' kg COD/d'])
 disp(['Effluent average BOD5 load = ',num2str(BOD5eload/(1000*totalt)),' kg BOD5/d'])
 
-disp(' ')
-disp('Sludge for disposal average concentrations based on load')
-disp('--------------------------------------------------------')
-disp(['Sludge for disposal average flow rate = ',num2str(Qsav),' m3/d'])
-disp(['Sludge for disposal average SI conc = ',num2str(SIsav),' g COD/m3'])
-disp(['Sludge for disposal average SS conc = ',num2str(SSsav),' g COD/m3'])
-disp(['Sludge for disposal average XI conc = ',num2str(XIsav),' g COD/m3'])
-disp(['Sludge for disposal average XS conc = ',num2str(XSsav),' g COD/m3'])
-disp(['Sludge for disposal average XBH conc = ',num2str(XBHsav),' g COD/m3'])
-disp(['Sludge for disposal average XBA1 conc = ',num2str(XBA1sav),' g COD/m3'])
-disp(['Sludge for disposal average XP conc = ',num2str(XPsav),' g COD/m3'])
-disp(['Sludge for disposal average SO conc = ',num2str(SOsav),' g (-COD)/m3'])
-disp(['Sludge for disposal average SNO3 conc = ',num2str(SNO3sav),' g N/m3'])
-disp(['Sludge for disposal average SNH conc = ',num2str(SNHsav),' g N/m3'])
-disp(['Sludge for disposal average SND conc = ',num2str(SNDsav),' g N/m3'])
-disp(['Sludge for disposal average XND conc = ',num2str(XNDsav),' g N/m3'])
-disp(['Sludge for disposal average SALK conc = ',num2str(SALKsav),' mol HCO3/m3'])
-disp(['Sludge for disposal average TSS conc = ',num2str(TSSsav),' g SS/m3'])
-disp(['Sludge for disposal average Temperature = ',num2str(Tempsav),' degC'])
-disp(['Sludge for disposal average SNO2 conc = ',num2str(SNO2sav),' g N/m3'])
-disp(['Sludge for disposal average SNO conc = ',num2str(SNOsav),' g N/m3'])
-disp(['Sludge for disposal average SN2O conc = ',num2str(SN2Osav),' g N/m3'])
-disp(['Sludge for disposal average SN2 conc = ',num2str(SN2sav),' g N/m3'])
-disp(['Sludge for disposal average XBA2 conc = ',num2str(XBA2sav),' g COD/m3'])
-
-disp(' ')
-disp(['Sludge for disposal average Kjeldahl N conc = ',num2str(TKNsav),' g N/m3'])
-disp(['Sludge for disposal average total N conc = ',num2str(TNsav),' g N/m3'])
-disp(['Sludge for disposal average total COD conc = ',num2str(TCODsav),' g COD/m3'])
-disp(['Sludge for disposal average BOD5 conc = ',num2str(BOD5sav),' g BOD5/m3'])
-disp(' ')
-disp('Sludge for disposal average load')
-disp('--------------------------------')
-disp(['Sludge for disposal average SI load = ',num2str(SIsload/(1000*totalt)),' kg COD/day'])
-disp(['Sludge for disposal average SS load = ',num2str(SSsload/(1000*totalt)),' kg COD/day'])
-disp(['Sludge for disposal average XI load = ',num2str(XIsload/(1000*totalt)),' kg COD/day'])
-disp(['Sludge for disposal average XS load = ',num2str(XSsload/(1000*totalt)),' kg COD/day'])
-disp(['Sludge for disposal average XBH load = ',num2str(XBHsload/(1000*totalt)),' kg COD/day'])
-disp(['Sludge for disposal average XBA load = ',num2str(XBA1sload/(1000*totalt)),' kg COD/day'])
-disp(['Sludge for disposal average XP load = ',num2str(XPsload/(1000*totalt)),' kg COD/day'])
-disp(['Sludge for disposal average SO load = ',num2str(SOsload/(1000*totalt)),' kg (-COD)/day'])
-disp(['Sludge for disposal average SNO3 load = ',num2str(SNO3sload/(1000*totalt)),' kg N/day'])
-disp(['Sludge for disposal average SNH load = ',num2str(SNHsload/(1000*totalt)),' kg N/day'])
-disp(['Sludge for disposal average SND load = ',num2str(SNDsload/(1000*totalt)),' kg N/day'])
-disp(['Sludge for disposal average XND load = ',num2str(XNDsload/(1000*totalt)),' kg N/day'])
-disp(['Sludge for disposal average SALK load = ',num2str(SALKsload/(1000*totalt)),' kmol HCO3/day'])
-disp(['Sludge for disposal average TSS load = ',num2str(TSSsload/(1000*totalt)),' kg SS/day'])
-disp(['Sludge for disposal average SNO2 load = ',num2str(SNO2sload/(1000*totalt)),' kg N/day'])
-disp(['Sludge for disposal average SNO load = ',num2str(SNOsload/(1000*totalt)),' kg N/day'])
-disp(['Sludge for disposal average SN2O load = ',num2str(SN2Osload/(1000*totalt)),' kg N/day'])
-disp(['Sludge for disposal average SN2 load = ',num2str(SN2sload/(1000*totalt)),' kg N/day'])
-disp(['Sludge for disposal average XBA2 load = ',num2str(XBA2sload/(1000*totalt)),' kg N/day'])
-
-disp(' ')
-disp(['Sludge for disposal average Kjeldahl N load = ',num2str(totalNKjsload/(1000*totalt)),' kg N/d'])
-disp(['Sludge for disposal average total N load = ',num2str(totalNsload/(1000*totalt)),' kg N/d'])
-disp(['Sludge for disposal average total COD load = ',num2str(totalCODsload/(1000*totalt)),' kg COD/d'])
-disp(['Sludge for disposal average BOD5 load = ',num2str(BOD5sload/(1000*totalt)),' kg BOD5/d'])
-disp(' ')
+% disp(' ')
+% disp('Sludge for disposal average concentrations based on load')
+% disp('--------------------------------------------------------')
+% disp(['Sludge for disposal average flow rate = ',num2str(Qsav),' m3/d'])
+% disp(['Sludge for disposal average SI conc = ',num2str(SIsav),' g COD/m3'])
+% disp(['Sludge for disposal average SS conc = ',num2str(SSsav),' g COD/m3'])
+% disp(['Sludge for disposal average XI conc = ',num2str(XIsav),' g COD/m3'])
+% disp(['Sludge for disposal average XS conc = ',num2str(XSsav),' g COD/m3'])
+% disp(['Sludge for disposal average XBH conc = ',num2str(XBHsav),' g COD/m3'])
+% disp(['Sludge for disposal average XBA1 conc = ',num2str(XBA1sav),' g COD/m3'])
+% disp(['Sludge for disposal average XP conc = ',num2str(XPsav),' g COD/m3'])
+% disp(['Sludge for disposal average SO conc = ',num2str(SOsav),' g (-COD)/m3'])
+% disp(['Sludge for disposal average SNO3 conc = ',num2str(SNO3sav),' g N/m3'])
+% disp(['Sludge for disposal average SNH conc = ',num2str(SNHsav),' g N/m3'])
+% disp(['Sludge for disposal average SND conc = ',num2str(SNDsav),' g N/m3'])
+% disp(['Sludge for disposal average XND conc = ',num2str(XNDsav),' g N/m3'])
+% disp(['Sludge for disposal average SALK conc = ',num2str(SALKsav),' mol HCO3/m3'])
+% disp(['Sludge for disposal average TSS conc = ',num2str(TSSsav),' g SS/m3'])
+% disp(['Sludge for disposal average Temperature = ',num2str(Tempsav),' degC'])
+% disp(['Sludge for disposal average SNO2 conc = ',num2str(SNO2sav),' g N/m3'])
+% disp(['Sludge for disposal average SNO conc = ',num2str(SNOsav),' g N/m3'])
+% disp(['Sludge for disposal average SN2O conc = ',num2str(SN2Osav),' g N/m3'])
+% disp(['Sludge for disposal average SN2 conc = ',num2str(SN2sav),' g N/m3'])
+% disp(['Sludge for disposal average XBA2 conc = ',num2str(XBA2sav),' g COD/m3'])
+% 
+% disp(' ')
+% disp(['Sludge for disposal average Kjeldahl N conc = ',num2str(TKNsav),' g N/m3'])
+% disp(['Sludge for disposal average total N conc = ',num2str(TNsav),' g N/m3'])
+% disp(['Sludge for disposal average total COD conc = ',num2str(TCODsav),' g COD/m3'])
+% disp(['Sludge for disposal average BOD5 conc = ',num2str(BOD5sav),' g BOD5/m3'])
+% disp(' ')
+% disp('Sludge for disposal average load')
+% disp('--------------------------------')
+% disp(['Sludge for disposal average SI load = ',num2str(SIsload/(1000*totalt)),' kg COD/day'])
+% disp(['Sludge for disposal average SS load = ',num2str(SSsload/(1000*totalt)),' kg COD/day'])
+% disp(['Sludge for disposal average XI load = ',num2str(XIsload/(1000*totalt)),' kg COD/day'])
+% disp(['Sludge for disposal average XS load = ',num2str(XSsload/(1000*totalt)),' kg COD/day'])
+% disp(['Sludge for disposal average XBH load = ',num2str(XBHsload/(1000*totalt)),' kg COD/day'])
+% disp(['Sludge for disposal average XBA load = ',num2str(XBA1sload/(1000*totalt)),' kg COD/day'])
+% disp(['Sludge for disposal average XP load = ',num2str(XPsload/(1000*totalt)),' kg COD/day'])
+% disp(['Sludge for disposal average SO load = ',num2str(SOsload/(1000*totalt)),' kg (-COD)/day'])
+% disp(['Sludge for disposal average SNO3 load = ',num2str(SNO3sload/(1000*totalt)),' kg N/day'])
+% disp(['Sludge for disposal average SNH load = ',num2str(SNHsload/(1000*totalt)),' kg N/day'])
+% disp(['Sludge for disposal average SND load = ',num2str(SNDsload/(1000*totalt)),' kg N/day'])
+% disp(['Sludge for disposal average XND load = ',num2str(XNDsload/(1000*totalt)),' kg N/day'])
+% disp(['Sludge for disposal average SALK load = ',num2str(SALKsload/(1000*totalt)),' kmol HCO3/day'])
+% disp(['Sludge for disposal average TSS load = ',num2str(TSSsload/(1000*totalt)),' kg SS/day'])
+% disp(['Sludge for disposal average SNO2 load = ',num2str(SNO2sload/(1000*totalt)),' kg N/day'])
+% disp(['Sludge for disposal average SNO load = ',num2str(SNOsload/(1000*totalt)),' kg N/day'])
+% disp(['Sludge for disposal average SN2O load = ',num2str(SN2Osload/(1000*totalt)),' kg N/day'])
+% disp(['Sludge for disposal average SN2 load = ',num2str(SN2sload/(1000*totalt)),' kg N/day'])
+% disp(['Sludge for disposal average XBA2 load = ',num2str(XBA2sload/(1000*totalt)),' kg N/day'])
+% 
+% disp(' ')
+% disp(['Sludge for disposal average Kjeldahl N load = ',num2str(totalNKjsload/(1000*totalt)),' kg N/d'])
+% disp(['Sludge for disposal average total N load = ',num2str(totalNsload/(1000*totalt)),' kg N/d'])
+% disp(['Sludge for disposal average total COD load = ',num2str(totalCODsload/(1000*totalt)),' kg COD/d'])
+% disp(['Sludge for disposal average BOD5 load = ',num2str(BOD5sload/(1000*totalt)),' kg BOD5/d'])
+% disp(' ')
 disp('Other effluent quality variables')
 disp('--------------------------------')
-disp(['Influent Quality Index (IQI) = ',num2str(IQI),' kg poll.units/d'])
-disp(['Effluent Quality Index (EQI) = ',num2str(EQI),' kg poll.units/d'])
+% disp(['Influent Quality Index (IQI) = ',num2str(IQI),' kg poll.units/d'])
+% disp(['Effluent Quality Index (EQI) = ',num2str(EQI),' kg poll.units/d'])
 disp(' ')
-disp(['Sludge production for disposal = ',num2str(TSSproduced),' kg SS'])
-disp(['Average sludge production for disposal per day = ',num2str(TSSproducedperd),' kg SS/d'])
-disp(['Sludge production released into effluent = ',num2str(Sludgetoeff),' kg SS'])
-disp(['Average sludge production released into effluent per day = ',num2str(Sludgetoeffperd),' kg SS/d'])
-disp(['Total sludge production = ',num2str(Totsludgeprod),' kg SS'])
-disp(['Total average sludge production per day = ',num2str(Totsludgeprodperd),' kg SS/d'])
+% disp(['Sludge production for disposal = ',num2str(TSSproduced),' kg SS'])
+% disp(['Average sludge production for disposal per day = ',num2str(TSSproducedperd),' kg SS/d'])
+% disp(['Sludge production released into effluent = ',num2str(Sludgetoeff),' kg SS'])
+% disp(['Average sludge production released into effluent per day = ',num2str(Sludgetoeffperd),' kg SS/d'])
+% disp(['Total sludge production = ',num2str(Totsludgeprod),' kg SS'])
+% disp(['Total average sludge production per day = ',num2str(Totsludgeprodperd),' kg SS/d'])
 
 disp(' ')
 disp(['Average aeration energy = ',num2str(airenergyperd),' kWh/d'])
-disp(['Average pumping energy = ',num2str(pumpenergyperd),' kWh/d'])
+% disp(['Average pumping energy = ',num2str(pumpenergyperd),' kWh/d'])
 disp(['Average carbon source addition = ',num2str(carbonmassperd),' kg COD/d'])
 disp(['Average mixing energy = ',num2str(mixenergyperd),' kWh/d'])
 disp(' ')
 
 disp('Operational Cost Index')
 disp('----------------------')
-disp(['Sludge production cost index = ',num2str(TSScost)])
+% disp(['Sludge production cost index = ',num2str(TSScost)])
 disp(['Aeration energy cost index = ',num2str(airenergycost)])
-disp(['Pumping energy cost index = ',num2str(pumpenergycost)])
+% disp(['Pumping energy cost index = ',num2str(pumpenergycost)])
 disp(['Carbon source dosage cost index = ',num2str(carbonmasscost)])
 disp(['Mixing energy cost index = ',num2str(mixenergycost)])
-disp(['Total Operational Cost Index (OCI) = ',num2str(OCI)])
+% disp(['Total Operational Cost Index (OCI) = ',num2str(OCI)])
 disp(' ')
 disp('N2O Emissions')
 disp('-------------------')

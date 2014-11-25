@@ -8,7 +8,7 @@ close all;
 
 init_bsm1;
 bsm1_ss_settler2
-outputtimes=[0:(1/96):14];
+outputtimes=[0:0.010416667:14];
 
 disp(' ')
 disp('Running BSM1 to steady state! Solver = ode15s and Simulink model = benchmarkss')
